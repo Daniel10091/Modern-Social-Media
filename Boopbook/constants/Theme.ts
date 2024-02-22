@@ -1,4 +1,4 @@
-const THEME_COLORS = {
+ const THEME_COLORS = {
   
   // base colors
   primary: '#FF6C44',

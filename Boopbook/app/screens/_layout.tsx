@@ -20,6 +20,26 @@ function TabBarIcon(props: {
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
+  
+  const account = {
+    code: 0,
+    username: 'daniel_aguiar',
+    avatar: require('../../assets/images/account.jpeg'),
+    stories: [
+      // {
+      //   code: 1,
+      //   avatar: 'https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg?cs=srgb&dl=pexels-simon-robben-614810.jpg&fm=jpg',
+      //   username: 'felipe_starr',
+      //   viewed: true,
+      // },
+      // {
+      //   code: 2,
+      //   avatar: 'https://www.georgetown.edu/wp-content/uploads/2022/02/Jkramerheadshot-scaled-e1645036825432-1050x1050-c-default.jpg',
+      //   username: 'keren_rose',
+      //   viewed: false,
+      // },
+    ]
+  }
 
   return (
     <Tabs
@@ -102,9 +122,7 @@ export default function TabLayout() {
                     width: '100%',
                     height: '100%',
                   }}
-                  source={{
-                    uri: 'https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg?cs=srgb&dl=pexels-simon-robben-614810.jpg&fm=jpg'
-                  }} 
+                  source={account.avatar} 
                 />
               </View>
             </View>

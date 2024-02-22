@@ -1,68 +1,35 @@
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Image } from 'react-native'
-import React from 'react'
+import React from 'react';
+import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
-import { LinearGradient } from 'expo-linear-gradient';
-import { AntDesign } from '@expo/vector-icons';
 import { useColorScheme } from '@/components/useColorScheme.web';
-import { DarkTheme, DefaultTheme } from '@react-navigation/native';
 import { THEME_COLORS, THEME_SIZES } from '@/constants/Theme';
+import { AntDesign } from '@expo/vector-icons';
+import { DarkTheme, DefaultTheme } from '@react-navigation/native';
+import { LinearGradient } from 'expo-linear-gradient';
 
-export default function TimelineConponent() {
+export default function TimelineConponent( params: any ) {
 
-  const id: number = 0;
+  const account = {
+    code: 0,
+    username: 'daniel_aguiar',
+    avatar: require('../../assets/images/account.jpeg'),
+    stories: [
+      // {
+      //   code: 1,
+      //   avatar: 'https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg?cs=srgb&dl=pexels-simon-robben-614810.jpg&fm=jpg',
+      //   username: 'felipe_starr',
+      //   viewed: true,
+      // },
+      // {
+      //   code: 2,
+      //   avatar: 'https://www.georgetown.edu/wp-content/uploads/2022/02/Jkramerheadshot-scaled-e1645036825432-1050x1050-c-default.jpg',
+      //   username: 'keren_rose',
+      //   viewed: false,
+      // },
+    ]
+  }
 
-  const users = [
-    {
-      code: 1,
-      avatar: 'https://www.georgetown.edu/wp-content/uploads/2022/02/Jkramerheadshot-scaled-e1645036825432-1050x1050-c-default.jpg',
-      username: 'keren_rose',
-    },
-    {
-      code: 2,
-      avatar: 'https://architecture.ou.edu/wp-content/uploads/2018/07/ANGELAPERSON-1447-300x300.jpg',
-      username: 'scott_hill',
-    },
-    {
-      code: 3,
-      avatar: 'https://www.wilsoncenter.org/sites/default/files/media/images/person/james-person-1.jpg?ww401834',
-      username: 'andrew_ross',
-    },
-    {
-      code: 4,
-      avatar: 'https://media.licdn.com/dms/image/D4E03AQHjhSvdWPms8A/profile-displayphoto-shrink_800_800/0/1686995323144?e=2147483647&v=beta&t=DViJCzGnEWwF1Jos89sN9hADIWBjZ2mkwDaHN_P-Dfc',
-      username: 'arthur_wood',
-    },
-    {
-      code: 5,
-      avatar: 'https://schoolsweek.co.uk/wp-content/uploads/2023/09/Gillian-Keegan-feat-blue.jpg',
-      username: 'sarah_ashcroft',
-    },
-    {
-      code: 6,
-      avatar: 'https://www.telegraph.co.uk/content/dam/royal-family/2022/11/28/TELEMMGLPICT000317879575_trans_NvBQzQNjv4BqA7N2CxnJWnYI3tCbVBgu9T0aesusvN1TE7a0ddd_esI.jpeg?imwidth=680',
-      username: 'james_smith',
-    },
-    {
-      code: 7,
-      avatar: 'https://www.jordanharbinger.com/wp-content/uploads/2018/09/be-the-most-interesting-360x360.jpg',
-      username: 'john_doe',
-    },
-    {
-      code: 8,
-      avatar: 'https://images.pexels.com/photos/1239291/pexels-photo-1239291.jpeg',
-      username: 'jane_doe',
-    },
-    {
-      code: 9,
-      avatar: 'https://t3.ftcdn.net/jpg/03/02/88/46/360_F_302884605_actpipOdPOQHDTnFtp4zg4RtlWzhOASp.jpg',
-      username: 'gabriel_mart',
-    },
-    {
-      code: 10,
-      avatar: 'https://www.maklarsamfundet.se/sites/default/files/styles/large_w760/public/2019-11/nyhet_emil_cargill_ek.jpg?itok=uBdXw7Nq',
-      username: 'robert_wood',
-    },
-  ];
+  const stories = params.data;
   
   return (
     <View style={style.container}>
@@ -77,7 +44,7 @@ export default function TimelineConponent() {
             // onPress={() => navigation.navigate('LoginOrRegister')}
             activeOpacity={0.6}
           >
-            <AntDesign style={style.headerMenuItemIcon} name='hearto' />
+            <AntDesign style={style.headerMenuItemIcon} name='bells' />
           </TouchableOpacity>
           <TouchableOpacity
             style={style.headerMenuItem}
@@ -106,6 +73,22 @@ export default function TimelineConponent() {
               activeOpacity={0.8}
             >
               <View style={style.timelineContent}>
+                {
+                  account.stories.length > 0 ? 
+                    account.stories.filter((story: { viewed: boolean; }) => !story.viewed).length > 0 ? <LinearGradient
+                      colors={[THEME_COLORS.indigo, THEME_COLORS.rose]}
+                      style={style.timelineBackground}
+                      start={{ x: 1, y: 0 }}
+                      end={{ x: 1, y: 1 }}
+                    /> : 
+                    <LinearGradient
+                      colors={[THEME_COLORS.black, THEME_COLORS.black]}
+                      style={style.timelineBackground}
+                      start={{ x: 1, y: 0 }}
+                      end={{ x: 1, y: 1 }}
+                    />
+                  : ''
+                }
                 {/* <LinearGradient 
                   colors={[THEME_COLORS.indigo, THEME_COLORS.rose]} 
                   style={style.timelineBackground} 
@@ -113,20 +96,18 @@ export default function TimelineConponent() {
                   end={{ x: 1, y: 1 }}
                 /> */}
                 <View style={style.timelineAvatarContent}>
-                  <Image style={style.timelineAvatar} source={{
-                    uri: 'https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg?cs=srgb&dl=pexels-simon-robben-614810.jpg&fm=jpg'
-                  }} />
+                  <Image style={style.timelineAvatar} source={account.avatar} />
                 </View>
                 <View style={style.timelineAddIconContent}>
                   <AntDesign style={style.timelineAddIcon} name='plus' />
                 </View>
               </View>
               <View style={style.timelineUserNameContainer}>
-                <Text style={[style.timelineUserName, style.timelineUserNamePrimary]} numberOfLines={1}>Seu story</Text>
+                <Text style={[style.timelineUserName, style.timelineUserNamePrimary]} numberOfLines={1}>You story</Text>
               </View>
             </TouchableOpacity>
 
-            {users.filter((user: { code: number; }) => user.code !== id).map((user: { code: number; }) => <TimelineItem key={user.code} data={user} />)}
+            {stories.filter((story: { code: number; }) => story.code !== account.code).map((story: { code: number; }) => <TimelineItem key={story.code} data={story} />)}
 
           </ScrollView>
         </View>
@@ -136,7 +117,7 @@ export default function TimelineConponent() {
 
 function TimelineItem( props: any ) {
 
-  const data = props.data;
+  const story = props.data;
   
   return (
     <TouchableOpacity
@@ -144,8 +125,9 @@ function TimelineItem( props: any ) {
       activeOpacity={0.8}
     >
       <View style={style.timelineContent}>
+        {story.viewed ? '' : ''}
         <LinearGradient 
-          colors={[THEME_COLORS.indigo, THEME_COLORS.rose]} 
+          colors={story.viewed ? [THEME_COLORS.black, THEME_COLORS.black] : [THEME_COLORS.indigo, THEME_COLORS.rose]} 
           style={style.timelineBackground} 
           start={{ x: 1, y: 0 }} 
           end={{ x: 1, y: 1 }}
@@ -153,13 +135,13 @@ function TimelineItem( props: any ) {
         <View style={style.timelineAvatarContent}>
           {/* <Image style={style.timelineAvatar} source={{uri: data.avatar}} /> */}
           <Image style={style.timelineAvatar} source={{
-            uri: data.avatar
+            uri: story.avatar
           }} 
           />
         </View>
       </View>
       <View style={style.timelineUserNameContainer}>
-        <Text style={style.timelineUserName} numberOfLines={1}>{data.username}</Text>
+        <Text style={style.timelineUserName} numberOfLines={1}>{story.username}</Text>
       </View>
     </TouchableOpacity>
   )

@@ -1,5 +1,5 @@
-import { View, Text, Image, Dimensions, TouchableOpacity, StyleSheet } from 'react-native'
 import React from 'react'
+import { View, Text, Image, Dimensions, TouchableOpacity, StyleSheet } from 'react-native'
 
 import { useColorScheme } from '@/components/useColorScheme.web';
 import { DarkTheme, DefaultTheme } from '@react-navigation/native';
@@ -19,7 +19,7 @@ export default function PostComponent( params: any ) {
   const [ postContentWidth, setPostContentWidth ] = React.useState(0);
   const [ postContentHeight, setPostContentHeight ] = React.useState(0);
 
-  const data = params.data;
+  const post = params.data;
   const comments = params.comments;
 
   const user = {
@@ -63,12 +63,12 @@ export default function PostComponent( params: any ) {
       .then(data => setUsers(data))
       .catch(error => console.error(error))
 
-    Image.getSize(data.image, (width, height) => {
+    Image.getSize(post.image, (width, height) => {
       setPostContentWidth(width);
       setPostContentHeight(height);
     });
 
-  }, [data]);
+  }, [post]);
   
   var backCount = 0;
   var backTimer: any = null;
@@ -83,7 +83,7 @@ export default function PostComponent( params: any ) {
               onPress={() => ''}
               activeOpacity={0.6}
             >
-              {data.user.hasStory ? 
+              {post.user.hasStory ? 
                 <LinearGradient 
                   colors={[THEME_COLORS.indigo, THEME_COLORS.rose]} 
                   style={style.postHeaderUserAvatarBackground} 
@@ -93,7 +93,7 @@ export default function PostComponent( params: any ) {
                : ''}
               <Image 
                 style={style.postUserAvatar} 
-                source={{uri: data.user.avatar}} 
+                source={{uri: post.user.avatar}} 
               />
             </TouchableOpacity>
           </View>
@@ -104,7 +104,7 @@ export default function PostComponent( params: any ) {
                 onPress={() => ''}
                 activeOpacity={0.6}
               >
-                <Text style={style.postUserUsername}>{data.user.username}</Text>
+                <Text style={style.postUserUsername}>{post.user.username}</Text>
               </TouchableOpacity>
               <View style={style.postOptions}>
                 <TouchableOpacity 
@@ -121,9 +121,9 @@ export default function PostComponent( params: any ) {
                 style={[style.postDescriptionText, {
                   width: showDescription ? '100%' : '80%',
                 }]} 
-                numberOfLines={showDescription ? null : 1} 
+                // numberOfLines={showDescription ? null : 1} 
                 // onPress={() => setShowDescription(!showDescription)}
-              >{data.description}</Text>
+              >{post.description}</Text>
             </View>
           </View>
         </View>
@@ -143,12 +143,12 @@ export default function PostComponent( params: any ) {
         }}
         activeOpacity={1}
       >
-        <Image 
+        {/* <Image 
           style={[style.postImage, {
             height: postContentHeight * (Dimensions.get('window').width / postContentWidth),
           }]} 
-          source={{uri: data.image}} 
-        />
+          source={{uri: post.image}} 
+        /> */}
       </TouchableOpacity>
       <View style={style.postFooter}>
         <View style={style.postOptionsMenu}>
@@ -169,7 +169,7 @@ export default function PostComponent( params: any ) {
             {/* <Text style={style.postOptionButtonSpan}>{data.likes.length}</Text> */}
           </TouchableOpacity>
 
-          <View style={[style.menuLikeOptions, {
+          {/* <View style={[style.menuLikeOptions, {
             opacity: likedMenuVisible ? '1' : '0',
           }]}>
             <BlurView intensity={80} tint="light" style={style.menuLikeOptionsBg} />
@@ -179,10 +179,10 @@ export default function PostComponent( params: any ) {
                   key={item.name}
                   style={style.menuLikeButton} 
                   onPress={() => {
-                    if (liked === item.source) 
-                      setLiked(null);
-                    else setLiked(item.source);
-                    setLikedMenuVisible(false);
+                    // if (liked === item.source) 
+                    //   setLiked(null);
+                    // else setLiked(item.source);
+                    // setLikedMenuVisible(false);
                   }} 
                   activeOpacity={0.8}
                 >
@@ -190,7 +190,7 @@ export default function PostComponent( params: any ) {
                 </TouchableOpacity>
               )}
             </View>
-          </View>
+          </View> */}
 
           <TouchableOpacity 
             style={style.postOptionButton} 
@@ -198,6 +198,7 @@ export default function PostComponent( params: any ) {
             activeOpacity={0.8}
           >
             <Ionicons style={style.postOptionButtonIcon} name="chatbox-outline" />
+            {post.comments.length > 0 ? <Text style={style.postOptionButtonText}>{post.comments.length}</Text> : ''}
           </TouchableOpacity>
           <TouchableOpacity 
             style={style.postOptionButton} 
@@ -205,6 +206,7 @@ export default function PostComponent( params: any ) {
             activeOpacity={0.8}
           >
             <Ionicons style={[style.postOptionButtonIcon, style.postOptionButtonIconShare]} name="paper-plane-outline" />
+            {post.shares.length > 0 ? <Text style={style.postOptionButtonText}>{post.shares.length}</Text> : ''}
           </TouchableOpacity>
         </View>
       </View>
@@ -253,6 +255,8 @@ const style = StyleSheet.create({
     top: 2,
     left: 2,
     borderRadius: (THEME_SIZES.FeedPostUserAvatarSize / 4) + 2,
+    borderWidth: 2,
+    borderColor: THEME_COLORS.dark,
   },
   postDetails: {
     position: 'relative',
@@ -315,7 +319,7 @@ const style = StyleSheet.create({
     alignItems: 'center',
   },
   postOptionButton: {
-    width: THEME_SIZES.FeedPostOptionButtonSize,
+    minWidth: THEME_SIZES.FeedPostOptionButtonSize,
     height: THEME_SIZES.FeedPostOptionButtonSize,
     flexDirection: 'row',
     justifyContent: 'center',
@@ -325,6 +329,11 @@ const style = StyleSheet.create({
   },
   postOptionButtonIcon: {
     fontSize: THEME_SIZES.FeedPostOptionButtonIconSize,
+    color: THEME_COLORS.white,
+  },
+  postOptionButtonText: {
+    marginLeft: 10,
+    fontSize: 12,
     color: THEME_COLORS.white,
   },
   postOptionButtonIconImg: {
